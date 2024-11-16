@@ -20,7 +20,7 @@ spec:
           ports:
             - containerPort: 7777
           volumeMounts:
-            - mountPath: /app/config/application.yml
+            - mountPath: /config/application.yml
               subPath: application.yml
               name: config-volume
           env:
