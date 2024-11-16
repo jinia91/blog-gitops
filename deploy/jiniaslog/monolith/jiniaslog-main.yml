@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: jinia91/blog-backend:test
+          image: jinia91/blog-backend:83d761d9296a5aee95e12fc86364ebf9b4bcb980
           ports:
             - containerPort: 7777
           volumeMounts:
@@ -32,7 +32,6 @@ spec:
           configMap:
             name: jiniaslog-config
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
