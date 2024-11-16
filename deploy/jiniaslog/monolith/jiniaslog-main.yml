@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: jinia91/blog-backend:test
+          image: jinia91/blog-backend:83d761d9296a5aee95e12fc86364ebf9b4bcb980
           ports:
             - containerPort: 7777
           volumeMounts:
@@ -27,9 +27,7 @@ spec:
         - name: config-volume
           hostPath:
             path: /home/ubuntu/blog/application.yml
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -42,3 +40,7 @@ spec:
       port: 80
       targetPort: 7777
   type: ClusterIP
+  template:
+    spec:
+      containers:
+        - image: jinia91/blog-backend:83d761d9296a5aee95e12fc86364ebf9b4bcb980
