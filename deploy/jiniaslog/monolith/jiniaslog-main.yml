@@ -23,11 +23,14 @@ spec:
             - mountPath: /app/config/application.yml
               subPath: application.yml
               name: config-volume
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: "classpath:/,file:/config/"
+
       volumes:
         - name: config-volume
-          hostPath:
-            path: /home/ubuntu/blog/application.yml
-
+          configMap:
+            name: jiniaslog-config
 ---
 
 apiVersion: v1
