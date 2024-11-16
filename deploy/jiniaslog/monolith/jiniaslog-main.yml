@@ -20,13 +20,11 @@ spec:
           ports:
             - containerPort: 7777
           volumeMounts:
-            - mountPath: /config/application.yml
-              subPath: application.yml
+            - mountPath: /config/
               name: config-volume
           env:
             - name: SPRING_CONFIG_LOCATION
-              value: "classpath:/,file:/config/"
-
+              value: "optional:file:/config/application.yml"
       volumes:
         - name: config-volume
           configMap:
