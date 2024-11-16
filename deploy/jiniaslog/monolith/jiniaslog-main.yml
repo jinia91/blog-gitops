@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-backend
+  labels:
+    app: blog-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-backend
+  template:
+    metadata:
+      labels:
+        app: blog-backend
+    spec:
+      containers:
+        - name: blog-backend
+          image: jinia91/blog-backend:test
+          ports:
+            - containerPort: 7777
+          volumeMounts:
+            - mountPath: /app/config/application.yml
+              subPath: application.yml
+              name: config-volume
+      volumes:
+        - name: config-volume
+          hostPath:
+            path: /home/ubuntu/blog/application.yml
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-backend-service
+spec:
+  selector:
+    app: blog-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7777
+  type: ClusterIP
