@@ -6,6 +6,11 @@ metadata:
     app: blog-backend
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       app: blog-backend
@@ -25,6 +30,18 @@ spec:
           env:
             - name: SPRING_CONFIG_LOCATION
               value: "optional:file:/config/application.yml"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 7777
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 7777
+            initialDelaySeconds: 10
+            periodSeconds: 5
       volumes:
         - name: config-volume
           configMap:
