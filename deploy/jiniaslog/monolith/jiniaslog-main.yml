@@ -9,7 +9,7 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 1
+      maxUnavailable: 0
       maxSurge: 1
   selector:
     matchLabels:
@@ -42,6 +42,12 @@ spec:
               port: 7777
             initialDelaySeconds: 60
             periodSeconds: 5
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
       volumes:
         - name: config-volume
           configMap:
@@ -62,7 +68,4 @@ spec:
       targetPort: 7777
   type: ClusterIP
   sessionAffinity: ClientIP
-  template:
-    spec:
-      containers:
-        - image: jinia91/blog-backend:bb3078d83772c4e88a21ac954464007e56cacbab
+---
