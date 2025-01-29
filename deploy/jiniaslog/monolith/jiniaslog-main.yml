@@ -72,9 +72,3 @@ spec:
     spec:
       containers:
         - image: jinia91/blog-backend:ae8d13e73b46e32f03f5cd1e1f43ea45083d7d36
----
-spec:
-  template:
-    spec:
-      containers:
-        - image: jinia91/blog-backend:ae8d13e73b46e32f03f5cd1e1f43ea45083d7d36
