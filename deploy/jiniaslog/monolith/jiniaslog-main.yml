@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: jinia91/blog-backend:1f484797318d19f371808399612aeefb9c59a533
+          image: jinia91/blog-backend:372e2e045f9c3c0a509d2f2d71173e1e887af0aa
           ports:
             - containerPort: 7777
           volumeMounts:
@@ -68,3 +68,7 @@ spec:
       targetPort: 7777
   type: ClusterIP
   sessionAffinity: ClientIP
+  template:
+    spec:
+      containers:
+        - image: jinia91/blog-backend:372e2e045f9c3c0a509d2f2d71173e1e887af0aa
