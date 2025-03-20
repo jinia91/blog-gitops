@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: jinia91/blog-backend:372e2e045f9c3c0a509d2f2d71173e1e887af0aa
+          image: jinia91/blog-backend:5e1ad26992f22066d35754a05461676656e97c9a
           ports:
             - containerPort: 7777
           volumeMounts:
@@ -52,19 +52,3 @@ spec:
         - name: config-volume
           configMap:
             name: jiniaslog-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: blog-backend-service
-  annotations:
-    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
-spec:
-  selector:
-    app: blog-backend
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 7777
-  type: ClusterIP
-  sessionAffinity: ClientIP
