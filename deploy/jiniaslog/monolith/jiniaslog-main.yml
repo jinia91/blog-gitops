@@ -68,7 +68,3 @@ spec:
       targetPort: 7777
   type: ClusterIP
   sessionAffinity: ClientIP
-  template:
-    spec:
-      containers:
-        - image: jinia91/blog-backend:1f484797318d19f371808399612aeefb9c59a533
