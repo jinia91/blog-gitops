@@ -52,3 +52,23 @@ spec:
         - name: config-volume
           configMap:
             name: jiniaslog-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-backend-service
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+spec:
+  selector:
+    app: blog-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7777
+  type: ClusterIP
+  sessionAffinity: ClientIP            
+
+
+
+
