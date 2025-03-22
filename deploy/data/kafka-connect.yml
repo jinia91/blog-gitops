@@ -15,21 +15,16 @@ spec:
       labels:
         app: kafka-connect
     spec:
-      initContainers:
-        - name: connector-init
-          image: curlimages/curl:8.2.1
+      containers:
+        - name: kafka-connect
+          image: confluentinc/cp-kafka-connect:7.4.0
           command:
             - sh
             - -c
             - |
               confluent-hub install --no-prompt debezium/debezium-connector-mysql:latest --component-dir /kafka/connect-plugins && \
-              confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:latest --component-dir /kafka/connect-plugins
-          volumeMounts:
-            - name: plugin-volume
-              mountPath: /kafka/connect-plugins
-      containers:
-        - name: kafka-connect
-          image: confluentinc/cp-kafka-connect:7.4.0
+              confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:latest --component-dir /kafka/connect-plugins && \
+              /etc/confluent/docker/run
           ports:
             - containerPort: 8083
           env:
