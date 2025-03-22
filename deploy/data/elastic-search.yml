@@ -13,6 +13,7 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      nodeName: mk4
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
