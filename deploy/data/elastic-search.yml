@@ -24,13 +24,6 @@ spec:
               value: "single-node"
             - name: xpack.security.enabled
               value: "false"
-          resources:
-            requests:
-              memory: "400Mi"
-              cpu: "500m"
-            limits:
-              memory: "1000Mi"
-              cpu: "1000m"
           volumeMounts:
             - name: data
               mountPath: /usr/share/elasticsearch/data
