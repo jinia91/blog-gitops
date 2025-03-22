@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-connect
+  namespace: data
+  labels:
+    app: kafka-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-connect
+    spec:
+      initContainers:
+        - name: connector-init
+          image: curlimages/curl:8.2.1
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /kafka/connect-plugins/debezium && \
+              curl -L https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/2.5.1.Final/debezium-connector-mysql-2.5.1.Final-plugin.tar.gz | tar -xz -C /kafka/connect-plugins/debezium && \
+              mkdir -p /kafka/connect-plugins/elasticsearch && \
+              curl -L https://packages.confluent.io/maven/io/confluent/kafka-connect-elasticsearch/14.0.3/kafka-connect-elasticsearch-14.0.3.tar.gz | tar -xz -C /kafka/connect-plugins/elasticsearch
+          volumeMounts:
+            - name: plugin-volume
+              mountPath: /kafka/connect-plugins
+      containers:
+        - name: kafka-connect
+          image: confluentinc/cp-kafka-connect:7.4.0
+          ports:
+            - containerPort: 8083
+          env:
+            - name: CONNECT_BOOTSTRAP_SERVERS
+              value: "kafka-service:9092"
+            - name: CONNECT_REST_PORT
+              value: "8083"
+            - name: CONNECT_GROUP_ID
+              value: "kafka-connect-group"
+            - name: CONNECT_CONFIG_STORAGE_TOPIC
+              value: "connect-configs"
+            - name: CONNECT_OFFSET_STORAGE_TOPIC
+              value: "connect-offsets"
+            - name: CONNECT_STATUS_STORAGE_TOPIC
+              value: "connect-statuses"
+            - name: CONNECT_KEY_CONVERTER
+              value: "org.apache.kafka.connect.storage.StringConverter"
+            - name: CONNECT_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.storage.StringConverter"
+            - name: CONNECT_INTERNAL_KEY_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_INTERNAL_VALUE_CONVERTER
+              value: "org.apache.kafka.connect.json.JsonConverter"
+            - name: CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
+              value: "1"
+            - name: CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE
+              value: "false"
+            - name: CONNECT_PLUGIN_PATH
+              value: "/kafka/connect-plugins"
+          volumeMounts:
+            - name: plugin-volume
+              mountPath: /kafka/connect-plugins
+      volumes:
+        - name: plugin-volume
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-connect
+  namespace: data
+spec:
+  selector:
+    app: kafka-connect
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
