@@ -15,6 +15,7 @@ spec:
       labels:
         app: kafka-connect
     spec:
+      nodeName: ubuntu
       containers:
         - name: kafka-connect
           image: confluentinc/cp-kafka-connect:7.4.0
