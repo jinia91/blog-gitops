@@ -12,6 +12,7 @@ spec:
       labels:
         app: ksqldb
     spec:
+      nodeName: mk4
       containers:
         - name: ksqldb-server
           image: confluentinc/cp-ksqldb-server:7.8.1
@@ -30,6 +31,16 @@ spec:
               value: "true"
           ports:
             - containerPort: 8088
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - mk3
 ---
 apiVersion: v1
 kind: Service
