@@ -23,7 +23,7 @@ spec:
             - containerPort: 8083
           env:
             - name: CONNECT_BOOTSTRAP_SERVERS
-              value: "kafka-service:9092"
+              value: "PLAINTEXT://kafka-service:9092"
             - name: CONNECT_REST_PORT
               value: "8083"
             - name: CONNECT_REST_ADVERTISED_HOST_NAME
