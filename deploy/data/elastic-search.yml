@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: elasticsearch
   namespace: data
 spec:
+  serviceName: "elasticsearch"
   replicas: 1
   selector:
     matchLabels:
@@ -25,17 +26,19 @@ spec:
             - name: xpack.security.enabled
               value: "false"
           volumeMounts:
-            - name: data
+            - name: elasticsearch-data
               mountPath: /usr/share/elasticsearch/data
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
-            fsGroup: 1000
-      volumes:
-        - name: data
-          hostPath:
-            path: /data/elasticsearch
-            type: DirectoryOrCreate
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
