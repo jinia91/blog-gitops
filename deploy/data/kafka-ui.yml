@@ -26,6 +26,10 @@ spec:
               value: "kafka-connect"
             - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS
               value: "http://kafka-connect.data.svc.cluster.local:8083"
+            - name: KAFKA_CLUSTERS_0_AUDIT_TOPICAUDITENABLED
+              value: "true"
+            - name: KAFKA_CLUSTERS_0_AUDIT_CONSOLEAUDITENABLED
+              value: "true"
           ports:
             - containerPort: 8080
 ---
