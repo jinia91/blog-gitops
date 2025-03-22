@@ -30,7 +30,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: elasticsearch
-          image: bitnami/elasticsearch:8.5.1
+          image: bitnami/elasticsearch:8.17.3
           ports:
             - containerPort: 9200
           env:
