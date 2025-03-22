@@ -33,8 +33,6 @@ spec:
           env:
             - name: KSQL_BOOTSTRAP_SERVERS
               value: "kafka-service:9092"
-            - name: KSQL_KSQL_CONNECT_URL
-              value: "http://localhost:8083"
             - name: KSQL_KSQL_PRODUCER_INTERCEPTOR_CLASSES
               value: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
             - name: KSQL_KSQL_CONSUMER_INTERCEPTOR_CLASSES
