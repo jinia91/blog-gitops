@@ -12,24 +12,9 @@ spec:
       labels:
         app: ksqldb
     spec:
-      volumes:
-        - name: plugins
-          emptyDir: {}
-      initContainers:
-        - name: init-connectors
-          image: curlimages/curl:latest
-          command: ["sh", "-c"]
-          args:
-            - |
-              mkdir -p /plugins/jdbc && \
-              curl -L https://packages.confluent.io/maven/io/confluent/kafka-connect-jdbc/10.7.1/kafka-connect-jdbc-10.7.1.jar \
-              -o /plugins/jdbc/kafka-connect-jdbc.jar
-          volumeMounts:
-            - name: plugins
-              mountPath: /plugins
       containers:
         - name: ksqldb-server
-          image: confluentinc/cp-ksqldb-server:7.2.9
+          image: confluentinc/cp-ksqldb-server:7.8.1
           env:
             - name: KSQL_BOOTSTRAP_SERVERS
               value: "kafka-service:9092"
@@ -43,32 +28,8 @@ spec:
               value: "true"
             - name: KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE
               value: "true"
-            - name: KSQL_CONNECT_GROUP_ID
-              value: "ksql-connect-cluster"
-            - name: KSQL_CONNECT_BOOTSTRAP_SERVERS
-              value: "kafka-service:9092"
-            - name: KSQL_CONNECT_KEY_CONVERTER
-              value: "org.apache.kafka.connect.storage.StringConverter"
-            - name: KSQL_CONNECT_VALUE_CONVERTER
-              value: "org.apache.kafka.connect.storage.StringConverter"
-            - name: KSQL_CONNECT_INTERNAL_KEY_CONVERTER
-              value: "org.apache.kafka.connect.json.JsonConverter"
-            - name: KSQL_CONNECT_INTERNAL_VALUE_CONVERTER
-              value: "org.apache.kafka.connect.json.JsonConverter"
-            - name: KSQL_CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR
-              value: "1"
-            - name: KSQL_CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR
-              value: "1"
-            - name: KSQL_CONNECT_STATUS_STORAGE_REPLICATION_FACTOR
-              value: "1"
-            - name: KSQL_CONNECT_PLUGIN_PATH
-              value: "/usr/share/java"
           ports:
             - containerPort: 8088
-            - containerPort: 8083
-          volumeMounts:
-            - name: plugins
-              mountPath: /usr/share/java
 ---
 apiVersion: v1
 kind: Service
@@ -79,8 +40,6 @@ spec:
   ports:
     - port: 8088
       targetPort: 8088
-    - port: 8083
-      targetPort: 8083
   selector:
     app: ksqldb
   type: ClusterIP
