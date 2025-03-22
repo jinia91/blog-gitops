@@ -14,7 +14,20 @@ spec:
       labels:
         app: elasticsearch
     spec:
-      nodeName: mk4
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - mk4
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "elasticsearch"
+          effect: "NoSchedule"
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:8.5.1
