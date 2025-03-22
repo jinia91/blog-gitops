@@ -1,3 +1,8 @@
+volumeMounts:
+  - name: plugin-volume
+    mountPath: /kafka/connect-plugins
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,13 +23,6 @@ spec:
       containers:
         - name: kafka-connect
           image: confluentinc/cp-kafka-connect:7.4.0
-          command:
-            - sh
-            - -c
-            - |
-              confluent-hub install --no-prompt debezium/debezium-connector-mysql:latest --component-dir /kafka/connect-plugins && \
-              confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:latest --component-dir /kafka/connect-plugins && \
-              /etc/confluent/docker/run
           ports:
             - containerPort: 8083
           env:
@@ -65,7 +63,9 @@ spec:
               mountPath: /kafka/connect-plugins
       volumes:
         - name: plugin-volume
-          emptyDir: {}
+          hostPath:
+            path: /opt/kafka-plugins
+            type: Directory
 
 ---
 
