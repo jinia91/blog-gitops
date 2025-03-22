@@ -29,7 +29,7 @@ spec:
               mountPath: /plugins
       containers:
         - name: ksqldb-server
-          image: confluentinc/cp-ksqldb-server:7.8.1
+          image: confluentinc/cp-ksqldb-server:7.6.5
           env:
             - name: KSQL_BOOTSTRAP_SERVERS
               value: "kafka-service:9092"
