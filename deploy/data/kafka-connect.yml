@@ -22,13 +22,8 @@ spec:
             - sh
             - -c
             - |
-              set -eux
-              mkdir -p /kafka/connect-plugins/debezium /kafka/connect-plugins/elasticsearch
-              curl -L https://d1i4a15mxbxib1.cloudfront.net/debezium/debezium-connector-mysql/2.5.1.Final/debezium-connector-mysql-2.5.1.Final-plugin.tar.gz \
-                | tar -xz -C /kafka/connect-plugins/debezium
-              curl -L https://confluent-hub.s3.amazonaws.com/confluentinc/kafka-connect-elasticsearch/14.0.3/kafka-connect-elasticsearch-14.0.3.zip \
-                -o /tmp/es.zip
-              unzip /tmp/es.zip -d /kafka/connect-plugins/elasticsearch
+              confluent-hub install --no-prompt debezium/debezium-connector-mysql:latest --component-dir /kafka/connect-plugins && \
+              confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:latest --component-dir /kafka/connect-plugins
           volumeMounts:
             - name: plugin-volume
               mountPath: /kafka/connect-plugins
