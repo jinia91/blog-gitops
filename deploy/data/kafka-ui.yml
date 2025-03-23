@@ -22,7 +22,7 @@ spec:
               value: "kafka-service:9092"
             - name: KAFKA_CLUSTERS_0_KSQLDBSERVER
               value: "http://ksqldb-server.data.svc.cluster.local:8088"
-            - name: KAFKA_CLUSTER_0_KAFKACONNECT_0_NAME
+            - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME
               value: "kafka-connect"
             - name: KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS
               value: "http://kafka-connect.data.svc.cluster.local:8083"
