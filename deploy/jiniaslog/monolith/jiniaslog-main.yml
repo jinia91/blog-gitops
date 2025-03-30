@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: blog-backend
-          image: jinia91/blog-backend:9d548db8fdaf112497e9238b3d1f799ec9505601
+          image: jinia91/blog-backend:3107d17964e31d88cd21dcbcf58bc14788eec868
           ports:
             - containerPort: 7777
           volumeMounts:
