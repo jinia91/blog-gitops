@@ -28,8 +28,6 @@ spec:
             - mountPath: /config/
               name: config-volume
           env:
-            - name: JAVA_TOOL_OPTIONS
-              value: "-Xmx1500m -Xms512m"
             - name: SPRING_CONFIG_LOCATION
               value: "optional:file:/config/application.yml"
           livenessProbe:
