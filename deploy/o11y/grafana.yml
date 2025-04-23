@@ -25,13 +25,42 @@ spec:
                 name: grafana-admin-config
           env:
             - name: GF_AUTH_ANONYMOUS_ENABLED
-              value: "true"
+              value: "false"
             - name: GF_AUTH_ANONYMOUS_ORG_ROLE
               value: "Viewer"
             - name: GF_AUTH_DISABLE_LOGIN_FORM
               value: "false"
             - name: GF_FEATURE_TOGGLES_ENABLE
               value: "traceqlEditor"
+            - name: GF_SMTP_ENABLED
+              value: "true"
+            - name: GF_SMTP_HOST
+              value: "smtp.gmail.com:587"
+
+            - name: GF_SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: gmail-app-user
+
+            - name: GF_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: gmail-app-password
+
+            - name: GF_SMTP_FROM_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: gmail-app-user
+
+            - name: GF_SMTP_FROM_NAME
+              value: "Grafana Alerts"
+            - name: GF_SMTP_SKIP_VERIFY
+              value: "true"
+            - name: GF_SMTP_STARTTLS_POLICY
+              value: "MandatoryStartTLS"
           ports:
             - containerPort: 3000
           resources:
