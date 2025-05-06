@@ -30,7 +30,7 @@ spec:
               value: "analysis-nori"
           volumeMounts:
             - name: elasticsearch-data
-              mountPath: /var/lib/elasticsearch/data
+              mountPath: /usr/share/elasticsearch/data
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data
