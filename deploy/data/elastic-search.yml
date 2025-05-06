@@ -14,20 +14,6 @@ spec:
       labels:
         app: elasticsearch
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - mk4
-      tolerations:
-        - key: "dedicated"
-          operator: "Equal"
-          value: "elasticsearch"
-          effect: "NoSchedule"
       containers:
         - name: elasticsearch
           image: bitnami/elasticsearch:8.17.3
@@ -44,7 +30,7 @@ spec:
               value: "analysis-nori"
           volumeMounts:
             - name: elasticsearch-data
-              mountPath: /usr/share/elasticsearch/data
+              mountPath: /var/lib/elasticsearch/data
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data
