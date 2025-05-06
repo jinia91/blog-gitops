@@ -30,7 +30,7 @@ spec:
               value: "analysis-nori"
           volumeMounts:
             - name: elasticsearch-data
-              mountPath: /usr/share/elasticsearch/data
+              mountPath: /bitnami/elasticsearch/data
   volumeClaimTemplates:
     - metadata:
         name: elasticsearch-data
@@ -38,7 +38,7 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 10Gi
+            storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
