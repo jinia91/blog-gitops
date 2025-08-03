@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "monolith-helm.fullname" . }}
+  name: blog-backend-hpa
   labels:
-    {{- include "monolith-helm.labels" . | nindent 4 }}
+    {{- include "blog-backend.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ include "monolith-helm.fullname" . }}
+    name: {{ include "blog-backend.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

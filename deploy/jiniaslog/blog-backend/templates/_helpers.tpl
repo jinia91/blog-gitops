@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "monolith-helm.name" -}}
+{{- define "blog-backend.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "monolith-helm.fullname" -}}
+{{- define "blog-backend.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "monolith-helm.chart" -}}
+{{- define "blog-backend.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "monolith-helm.labels" -}}
-helm.sh/chart: {{ include "monolith-helm.chart" . }}
-{{ include "monolith-helm.selectorLabels" . }}
+{{- define "blog-backend.labels" -}}
+helm.sh/chart: {{ include "blog-backend.chart" . }}
+{{ include "blog-backend.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "monolith-helm.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "monolith-helm.name" . }}
+{{- define "blog-backend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "blog-backend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "monolith-helm.serviceAccountName" -}}
+{{- define "blog-backend.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "monolith-helm.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "blog-backend.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
