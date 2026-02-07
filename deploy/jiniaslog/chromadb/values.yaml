@@ -1,0 +1,71 @@
+replicaCount: 1
+
+image:
+  repository: chromadb/chroma
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+
+fullnameOverride: chromadb
+nameOverride: chromadb
+
+serviceAccount:
+  create: false
+  automount: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8000
+  targetPort: 8000
+
+resources:
+  limits:
+    memory: 1Gi
+  requests:
+    memory: 512Mi
+    cpu: 250m
+
+livenessProbe:
+  httpGet:
+    path: /api/v1/heartbeat
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  failureThreshold: 30
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/heartbeat
+    port: 8000
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env:
+  - name: IS_PERSISTENT
+    value: "TRUE"
+  - name: ANONYMIZED_TELEMETRY
+    value: "FALSE"
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  mountPath: /chroma/chroma
