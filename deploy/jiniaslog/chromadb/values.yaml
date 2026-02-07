@@ -37,7 +37,7 @@ resources:
 
 livenessProbe:
   httpGet:
-    path: /api/v1/heartbeat
+    path: /api/v2/heartbeat
     port: 8000
   initialDelaySeconds: 10
   periodSeconds: 5
@@ -45,7 +45,7 @@ livenessProbe:
 
 readinessProbe:
   httpGet:
-    path: /api/v1/heartbeat
+    path: /api/v2/heartbeat
     port: 8000
   initialDelaySeconds: 5
   periodSeconds: 5
